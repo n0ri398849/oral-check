@@ -581,6 +581,32 @@ body { font-family:-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif; back
       <div class="odk-row"><span class="odk-syl">タ</span><span class="odk-count" id="odkCntTa">—</span><span class="odk-rate" id="odkRateTa">— 回/秒</span></div>
       <div class="odk-row"><span class="odk-syl">カ</span><span class="odk-count" id="odkCntKa">—</span><span class="odk-rate" id="odkRateKa">— 回/秒</span></div>
     </div>
+    <details class="how-to" style="margin-top:10px;">
+      <summary>✏️ 手入力で数値を入力する</summary>
+      <div style="padding:10px 12px;font-size:13px;background:#f9fafb;border-radius:8px;margin-top:6px;">
+        <p style="margin:0 0 8px;color:var(--gray-500);">音声認識が使えない場合、手動で回数を入力できます。</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="width:30px;font-size:18px;font-weight:700;">パ</span>
+            <input type="number" id="odkManualPa" placeholder="回数" min="0" max="99" style="width:80px;padding:6px 8px;border:1.5px solid var(--gray-300);border-radius:7px;font-size:14px;">
+            <span style="font-size:13px;color:var(--gray-500);">回 ÷ 5秒</span>
+            <button onclick="applyOdkManual('Pa')" style="padding:5px 12px;border-radius:8px;background:var(--blue);color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="width:30px;font-size:18px;font-weight:700;">タ</span>
+            <input type="number" id="odkManualTa" placeholder="回数" min="0" max="99" style="width:80px;padding:6px 8px;border:1.5px solid var(--gray-300);border-radius:7px;font-size:14px;">
+            <span style="font-size:13px;color:var(--gray-500);">回 ÷ 5秒</span>
+            <button onclick="applyOdkManual('Ta')" style="padding:5px 12px;border-radius:8px;background:var(--blue);color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="width:30px;font-size:18px;font-weight:700;">カ</span>
+            <input type="number" id="odkManualKa" placeholder="回数" min="0" max="99" style="width:80px;padding:6px 8px;border:1.5px solid var(--gray-300);border-radius:7px;font-size:14px;">
+            <span style="font-size:13px;color:var(--gray-500);">回 ÷ 5秒</span>
+            <button onclick="applyOdkManual('Ka')" style="padding:5px 12px;border-radius:8px;background:var(--blue);color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button>
+          </div>
+        </div>
+      </div>
+    </details>
     <div class="modal-footer">
       <div class="modal-score">最小値 <b id="odkMin">—</b> 回/秒</div>
       <div class="modal-actions">
@@ -911,9 +937,43 @@ function odkStop(){
 document.getElementById('odkOpenBtn').addEventListener('click',()=>document.getElementById('odkModal').classList.add('open'));
 document.getElementById('odkCancelBtn').addEventListener('click',()=>{odkStop();document.getElementById('odkModal').classList.remove('open');});
 document.getElementById('odkClearBtn').addEventListener('click',()=>{odkStop();odkRes[0]=odkRes[1]=odkRes[2]=null;odkCur=0;odkRefresh();document.getElementById('odkStatus').textContent='';});
+// 手入力適用関数
+function applyOdkManual(syl) {
+  var idx = ['Pa','Ta','Ka'].indexOf(syl);
+  if(idx < 0) return;
+  var el = document.getElementById('odkManual' + syl);
+  var val = parseInt(el.value, 10);
+  if(isNaN(val) || val < 0) { alert('正しい回数を入力してください'); return; }
+  odkRes[idx] = val;
+  odkRefresh();
+  el.value = '';
+  document.getElementById('odkStatus').textContent = odkSyls[idx] + ': ' + val + '回 = ' + (val/ODK_DUR).toFixed(1) + '回/秒 を入力しました';
+}
+
 document.getElementById('odkStartBtn').addEventListener('click',()=>{
   if(odkRunning)return;
-  if(!SR){document.getElementById('odkStatus').textContent='音声認識非対応(Chrome/Safari推奨)';return;}
+  if(!SR){document.getElementById('odkStatus').textContent='音声認識非対応 → 手入力を利用してください';return;}
+  // 3,2,1カウントダウン
+  var btn=document.getElementById('odkStartBtn');
+  btn.disabled=true;
+  var cnt=3;
+  document.getElementById('odkTimer').textContent=cnt;
+  document.getElementById('odkStatus').textContent='準備してください...';
+  btn.textContent=cnt+'';
+  var cdIv=setInterval(function(){
+    cnt--;
+    if(cnt>0){
+      document.getElementById('odkTimer').textContent=cnt;
+      btn.textContent=cnt+'';
+    } else {
+      clearInterval(cdIv);
+      btn.disabled=false;
+      startOdkMeasure();
+    }
+  },1000);
+});
+
+function startOdkMeasure(){
   odkRunning=true;odkTranscript='';
   const btn=document.getElementById('odkStartBtn');
   btn.className='btn-start running';btn.textContent='計測中...';
@@ -938,12 +998,24 @@ document.getElementById('odkStartBtn').addEventListener('click',()=>{
     if(rem<=0){
       const cnt=(odkTranscript.match(odkPats[odkCur])||[]).length;
       odkRes[odkCur]=cnt;
-      document.getElementById('odkStatus').textContent=`認識:「${odkTranscript}」`;
+      document.getElementById('odkStatus').textContent=`認識:「${odkTranscript}」 → ${cnt}回 = ${(cnt/ODK_DUR).toFixed(1)}回/秒`;
       odkStop();odkRefresh();
-      if(odkCur<2){odkCur++;odkRefresh();}
+      if(odkCur<2){
+        odkCur++;odkRefresh();
+        document.getElementById('odkStartBtn').textContent='次を測定（' + odkSyls[odkCur] + '）';
+      } else {
+        document.getElementById('odkStartBtn').textContent='再チャレンジ';
+        document.getElementById('odkStartBtn').onclick=function(){
+          odkRes[0]=odkRes[1]=odkRes[2]=null;odkCur=0;odkRefresh();
+          document.getElementById('odkStatus').textContent='';
+          document.getElementById('odkStartBtn').textContent='測定開始';
+          document.getElementById('odkStartBtn').onclick=null;
+          document.getElementById('odkStartBtn').removeAttribute('onclick');
+        };
+      }
     }
   },50);
-});
+}
 document.getElementById('odkConfirmBtn').addEventListener('click',()=>{
   const rates=odkRes.filter(c=>c!==null).map(c=>c/ODK_DUR);
   const val=document.querySelector('#card5 .val');
