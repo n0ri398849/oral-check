@@ -929,61 +929,84 @@ document.getElementById('odkClearBtn').addEventListener('click',()=>{odkStop();o
 document.getElementById('odkStartBtn').addEventListener('click',()=>{
   if(odkRunning)return;
   if(!SR){document.getElementById('odkStatus').textContent='音声認識非対応(Chrome/Safari推奨)';return;}
-  odkRunning=true;odkTranscript='';
+
+  const capCur=odkCur;
+  var voiceCount=0; // テキストに依存せず直接カウント
+
+  odkRunning=true;
+  odkTapCnt=0;
   const btn=document.getElementById('odkStartBtn');
   btn.className='btn-start running';btn.textContent='計測中...';
-  document.getElementById('odkStatus').textContent=`「${odkSyls[odkCur]}」と繰り返し発音してください`;
+  document.getElementById('odkStatus').textContent='「'+odkSyls[capCur]+'」と繰り返し発音してください';
+
   // タップボタン表示
-  odkTapCnt=0;
   var tapBtn=document.getElementById('odkTapBtn');
   var tapCntEl=document.getElementById('odkTapCount');
   tapBtn.style.display='block';
   tapCntEl.style.display='block';
   tapCntEl.textContent='タップ: 0回';
+
   const t0=Date.now();
-  odkRec=new SR();odkRec.lang='ja-JP';odkRec.continuous=true;odkRec.interimResults=true;
-  const capCur=odkCur; // この測定の音節番号をキャプチャ
-  odkRec.onresult=ev=>{
-    // 既に保存済み、または停止済みなら無視
+  var prevFinalLen=0; // 確定済みテキストの前回長さ
+
+  odkRec=new SR();
+  odkRec.lang='ja-JP';
+  odkRec.continuous=true;
+  odkRec.interimResults=true;
+
+  odkRec.onresult=function(ev){
     if(!odkRunning)return;
-    if(odkRes[capCur]!==null)return; // ← これが重要：保存済みなら一切無視
-    let interim='';
-    for(let i=ev.resultIndex;i<ev.results.length;i++){
-      const t=ev.results[i][0].transcript;
-      ev.results[i].isFinal?(odkTranscript+=t):(interim+=t);
+    // 確定結果のみでカウント（暫定結果は除外）
+    var allFinal='';
+    for(var i=0;i<ev.results.length;i++){
+      if(ev.results[i].isFinal) allFinal+=ev.results[i][0].transcript;
     }
-    const m=(odkTranscript+interim).match(odkPats[capCur]);
-    document.getElementById('odkCnt'+['Pa','Ta','Ka'][capCur]).textContent=m?m.length:0;
+    var m=allFinal.match(odkPats[capCur]);
+    voiceCount=m?m.length:0;
+    document.getElementById('odkCnt'+['Pa','Ta','Ka'][capCur]).textContent=voiceCount;
   };
-  odkRec.onerror=ev=>{document.getElementById('odkStatus').textContent='エラー:'+ev.error;};
-  odkRec.onend=()=>{if(odkRunning)try{odkRec.start();}catch(e){}};
-  try{odkRec.start();}catch(e){document.getElementById('odkStatus').textContent='開始できません:'+e.message;odkStop();return;}
-  odkIv=setInterval(()=>{
-    const rem=Math.max(0,ODK_DUR-(Date.now()-t0)/1000);
+
+  odkRec.onerror=function(ev){
+    document.getElementById('odkStatus').textContent='エラー:'+ev.error;
+  };
+  odkRec.onend=function(){
+    if(odkRunning)try{odkRec.start();}catch(e){}
+  };
+
+  try{odkRec.start();}catch(e){
+    document.getElementById('odkStatus').textContent='開始できません:'+e.message;
+    odkStop();return;
+  }
+
+  odkIv=setInterval(function(){
+    var rem=Math.max(0,ODK_DUR-(Date.now()-t0)/1000);
     document.getElementById('odkTimer').textContent=rem.toFixed(1);
     if(rem<=0){
-      // その時点の値を即座に全て保存（非同期処理に上書きされる前に）
-      const savedCur=odkCur;
-      const savedTxt=odkTranscript+'';
-      const voiceCnt=(savedTxt.match(odkPats[savedCur])||[]).length;
-      // 音声カウントとタップカウントの多い方を採用
-      const savedCnt=Math.max(voiceCnt, odkTapCnt);
-      const usedMethod=savedCnt===odkTapCnt && odkTapCnt>voiceCnt ? 'タップ' : '音声';
-      // odkResに先に保存（odkStop前）
-      odkRes[savedCur]=savedCnt;
-      // タップボタンを非表示
-      document.getElementById('odkTapBtn').style.display='none';
-      document.getElementById('odkTapCount').style.display='none';
-      // タイマーとSpeech Recognitionを停止
-      clearInterval(odkIv); odkIv=null;
+      // タイマー終了：この時点のvoiceCountを確定保存
+      var finalVoice=voiceCount;
+      var finalTap=odkTapCnt;
+      var savedCnt=Math.max(finalVoice,finalTap);
+
+      // 保存（停止より先）
+      odkRes[capCur]=savedCnt;
+
+      // 停止
+      clearInterval(odkIv);odkIv=null;
       odkRunning=false;
       if(odkRec){odkRec.onend=null;odkRec.onresult=null;try{odkRec.stop();}catch(e){}}
-      const btn=document.getElementById('odkStartBtn');
-      btn.className='btn-start'; btn.textContent='測定開始';
-      // 結果を表示
-      document.getElementById('odkStatus').textContent=odkSyls[savedCur]+':'+savedCnt+'回 = '+(savedCnt/ODK_DUR).toFixed(1)+'回/秒 (音声:'+voiceCnt+'/タップ:'+odkTapCnt+')';
+      btn.className='btn-start';btn.textContent='測定開始';
+
+      // タップボタン非表示
+      document.getElementById('odkTapBtn').style.display='none';
+      document.getElementById('odkTapCount').style.display='none';
+
+      // 結果表示
+      document.getElementById('odkStatus').textContent=
+        odkSyls[capCur]+':'+savedCnt+'回 = '+(savedCnt/ODK_DUR).toFixed(1)+'回/秒'+
+        ' (音声:'+finalVoice+'/タップ:'+finalTap+')';
+
       // 次の音節へ
-      if(savedCur<2){odkCur=savedCur+1;}
+      if(capCur<2){odkCur=capCur+1;}
       odkRefresh();
     }
   },50);
