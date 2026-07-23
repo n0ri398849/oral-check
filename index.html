@@ -277,8 +277,8 @@ body { font-family:-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif; back
     <button class="btn-patient-mgr" id="patientMgrBtn">🗂 患者選択</button>
     <input type="text" id="patientName" placeholder="患者氏名">
     <input type="text" id="patientId" placeholder="ID" style="width:68px;">
-    <input type="number" id="patientAge" placeholder="年齢" style="width:68px;">
     <input type="date" id="examDate">
+    <input type="number" id="patientAge" placeholder="年齢" style="width:68px;display:none;">
     <button class="btn-save-pt" id="saveDataBtn">💾 保存</button>
   </div>
 </div>
@@ -575,11 +575,24 @@ body { font-family:-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif; back
     <div class="odk-timer" id="odkTimer">5.0</div>
     <button class="btn-start" id="odkStartBtn">測定開始</button>
     <div class="odk-status" id="odkStatus"></div>
+    <button id="odkTapBtn" style="display:none;width:100%;padding:28px 0;margin:10px 0 4px;font-size:28px;font-weight:900;border-radius:16px;background:var(--teal);color:#fff;border:none;cursor:pointer;letter-spacing:.1em;">👆 タップ！</button>
+    <div style="text-align:center;font-size:12px;color:var(--gray-500);margin-bottom:4px;" id="odkTapCount" style="display:none;"></div>
     <div>
-      <div class="odk-row"><span class="odk-syl">パ</span><span class="odk-count" id="odkCntPa">—</span><span class="odk-rate" id="odkRatePa">— 回/秒</span></div>
-      <div class="odk-row"><span class="odk-syl">タ</span><span class="odk-count" id="odkCntTa">—</span><span class="odk-rate" id="odkRateTa">— 回/秒</span></div>
-      <div class="odk-row"><span class="odk-syl">カ</span><span class="odk-count" id="odkCntKa">—</span><span class="odk-rate" id="odkRateKa">— 回/秒</span></div>
+      <div class="odk-row"><span class="odk-syl">パ</span><span class="odk-count" id="odkCntPa">—</span><span class="odk-rate" id="odkRatePa">— 回/秒</span><button id="odkRetryPa" onclick="odkRetry(0)" style="display:none;margin-left:8px;padding:3px 10px;border-radius:8px;background:#EF4444;color:#fff;border:none;font-size:12px;cursor:pointer;">やり直し</button></div>
+      <div class="odk-row"><span class="odk-syl">タ</span><span class="odk-count" id="odkCntTa">—</span><span class="odk-rate" id="odkRateTa">— 回/秒</span><button id="odkRetryTa" onclick="odkRetry(1)" style="display:none;margin-left:8px;padding:3px 10px;border-radius:8px;background:#EF4444;color:#fff;border:none;font-size:12px;cursor:pointer;">やり直し</button></div>
+      <div class="odk-row"><span class="odk-syl">カ</span><span class="odk-count" id="odkCntKa">—</span><span class="odk-rate" id="odkRateKa">— 回/秒</span><button id="odkRetryKa" onclick="odkRetry(2)" style="display:none;margin-left:8px;padding:3px 10px;border-radius:8px;background:#EF4444;color:#fff;border:none;font-size:12px;cursor:pointer;">やり直し</button></div>
     </div>
+    <details class="how-to" style="margin-top:10px;">
+      <summary>✏️ 手入力で入力する</summary>
+      <div style="padding:10px 12px;background:#f9fafb;border-radius:8px;margin-top:6px;">
+        <p style="margin:0 0 8px;color:#6B7280;font-size:13px;">音声認識が使えない場合や値を修正したい場合に使用</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:28px;font-size:18px;font-weight:900;">パ</span><input type="number" id="odkManualPa" placeholder="回数" min="0" max="99" style="width:70px;padding:6px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(0)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:28px;font-size:18px;font-weight:900;">タ</span><input type="number" id="odkManualTa" placeholder="回数" min="0" max="99" style="width:70px;padding:6px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(1)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:28px;font-size:18px;font-weight:900;">カ</span><input type="number" id="odkManualKa" placeholder="回数" min="0" max="99" style="width:70px;padding:6px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(2)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
+        </div>
+      </div>
+    </details>
     <div class="modal-footer">
       <div class="modal-score">最小値 <b id="odkMin">—</b> 回/秒</div>
       <div class="modal-actions">
@@ -887,7 +900,7 @@ const ODK_DUR=5.0;
 const odkSyls=['パ','タ','カ'];
 const odkPats=[/パ/g,/タ/g,/カ/g];
 const odkRes=[null,null,null];
-let odkCur=0, odkRunning=false, odkTranscript='', odkRec=null, odkIv=null;
+let odkCur=0, odkRunning=false, odkTranscript='', odkRec=null, odkIv=null, odkTapCnt=0;
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 function odkRefresh(){
   document.getElementById('odkCurrentLabel').textContent=`「${odkSyls[odkCur]}」を測定`;
@@ -896,6 +909,9 @@ function odkRefresh(){
     const c=odkRes[i];
     document.getElementById('odkCnt'+k).textContent=c===null?'—':c;
     document.getElementById('odkRate'+k).textContent=c===null?'— 回/秒':(c/ODK_DUR).toFixed(1)+' 回/秒';
+    // やり直しボタンの表示制御
+    const retryBtn=document.getElementById('odkRetry'+k);
+    if(retryBtn) retryBtn.style.display=(c!==null)?'inline-block':'none';
   });
   const rates=odkRes.filter(c=>c!==null).map(c=>c/ODK_DUR);
   document.getElementById('odkMin').textContent=rates.length?Math.min(...rates).toFixed(1):'—';
@@ -917,16 +933,25 @@ document.getElementById('odkStartBtn').addEventListener('click',()=>{
   const btn=document.getElementById('odkStartBtn');
   btn.className='btn-start running';btn.textContent='計測中...';
   document.getElementById('odkStatus').textContent=`「${odkSyls[odkCur]}」と繰り返し発音してください`;
+  // タップボタン表示
+  odkTapCnt=0;
+  var tapBtn=document.getElementById('odkTapBtn');
+  var tapCntEl=document.getElementById('odkTapCount');
+  tapBtn.style.display='block';
+  tapCntEl.style.display='block';
+  tapCntEl.textContent='タップ: 0回';
   const t0=Date.now();
   odkRec=new SR();odkRec.lang='ja-JP';odkRec.continuous=true;odkRec.interimResults=true;
+  const capCur=odkCur; // この測定の音節番号をキャプチャ
   odkRec.onresult=ev=>{
+    if(!odkRunning)return; // 停止後は無視
     let interim='';
     for(let i=ev.resultIndex;i<ev.results.length;i++){
       const t=ev.results[i][0].transcript;
       ev.results[i].isFinal?(odkTranscript+=t):(interim+=t);
     }
-    const m=(odkTranscript+interim).match(odkPats[odkCur]);
-    document.getElementById('odkCnt'+['Pa','Ta','Ka'][odkCur]).textContent=m?m.length:0;
+    const m=(odkTranscript+interim).match(odkPats[capCur]);
+    document.getElementById('odkCnt'+['Pa','Ta','Ka'][capCur]).textContent=m?m.length:0;
   };
   odkRec.onerror=ev=>{document.getElementById('odkStatus').textContent='エラー:'+ev.error;};
   odkRec.onend=()=>{if(odkRunning)try{odkRec.start();}catch(e){}};
@@ -935,12 +960,27 @@ document.getElementById('odkStartBtn').addEventListener('click',()=>{
     const rem=Math.max(0,ODK_DUR-(Date.now()-t0)/1000);
     document.getElementById('odkTimer').textContent=rem.toFixed(1);
     if(rem<=0){
+      // その時点の値を即座に全て保存（非同期処理に上書きされる前に）
       const savedCur=odkCur;
-      const savedTxt=odkTranscript;
-      const cnt=(savedTxt.match(odkPats[savedCur])||[]).length;
-      odkRes[savedCur]=cnt;
-      odkStop();
-      document.getElementById('odkStatus').textContent=`${odkSyls[savedCur]}:${cnt}回=${(cnt/ODK_DUR).toFixed(1)}回/秒`;
+      const savedTxt=odkTranscript+'';
+      const voiceCnt=(savedTxt.match(odkPats[savedCur])||[]).length;
+      // 音声カウントとタップカウントの多い方を採用
+      const savedCnt=Math.max(voiceCnt, odkTapCnt);
+      const usedMethod=savedCnt===odkTapCnt && odkTapCnt>voiceCnt ? 'タップ' : '音声';
+      // odkResに先に保存（odkStop前）
+      odkRes[savedCur]=savedCnt;
+      // タップボタンを非表示
+      document.getElementById('odkTapBtn').style.display='none';
+      document.getElementById('odkTapCount').style.display='none';
+      // タイマーとSpeech Recognitionを停止
+      clearInterval(odkIv); odkIv=null;
+      odkRunning=false;
+      if(odkRec){odkRec.onend=null;odkRec.onresult=null;try{odkRec.stop();}catch(e){}}
+      const btn=document.getElementById('odkStartBtn');
+      btn.className='btn-start'; btn.textContent='測定開始';
+      // 結果を表示
+      document.getElementById('odkStatus').textContent=odkSyls[savedCur]+':'+savedCnt+'回 = '+(savedCnt/ODK_DUR).toFixed(1)+'回/秒 (音声:'+voiceCnt+'/タップ:'+odkTapCnt+')';
+      // 次の音節へ
       if(savedCur<2){odkCur=savedCur+1;}
       odkRefresh();
     }
@@ -961,6 +1001,37 @@ document.getElementById('odkConfirmBtn').addEventListener('click',()=>{
   evaluate();
 });
 odkRefresh();
+
+// タップボタンのイベント
+(function(){
+  var tapBtn=document.getElementById('odkTapBtn');
+  function doTap(e){
+    e.preventDefault();
+    if(!odkRunning)return;
+    odkTapCnt++;
+    document.getElementById('odkTapCount').textContent='タップ: '+odkTapCnt+'回';
+  }
+  tapBtn.addEventListener('click', doTap);
+  tapBtn.addEventListener('touchstart', doTap, {passive:false});
+})();
+
+// 手入力適用関数
+function odkRetry(idx){
+  if(odkRunning)return; // 計測中は不可
+  odkRes[idx]=null;    // その音節をリセット
+  odkCur=idx;          // その音節に戻る
+  odkRefresh();
+  document.getElementById('odkStatus').textContent=odkSyls[idx]+'をやり直してください';
+}
+function applyOdkManual(idx){
+  var ids=['odkManualPa','odkManualTa','odkManualKa'];
+  var el=document.getElementById(ids[idx]);
+  var val=parseInt(el.value,10);
+  if(isNaN(val)||val<0){alert('正しい回数を入力してください');return;}
+  odkRes[idx]=val;
+  odkRefresh();
+  document.getElementById('odkStatus').textContent=odkSyls[idx]+':'+val+'回='+(val/ODK_DUR).toFixed(1)+'回/秒';
+}
 
 // ─── ⑥ 咀嚼タイマー ───
 let chewRunning=false, chewIv=null, chewDone=false;
@@ -1539,11 +1610,14 @@ document.querySelectorAll('img[data-guide]').forEach(img => {
 <div id="ptOverlay">
   <div class="pt-modal">
     <h2>🗂 患者管理</h2>
+    <div style="margin-bottom:8px;">
+      <input type="text" id="ptSearch" placeholder="🔍 IDまたは氏名で検索" style="width:100%;padding:9px 12px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;" oninput="filterPtList()">
+    </div>
     <div class="pt-list" id="ptList"><div style="padding:14px;text-align:center;color:#9CA3AF;">患者データなし</div></div>
     <div class="pt-new">
       <input type="text" id="newPtId" placeholder="ID（例:001）" style="max-width:80px;">
       <input type="text" id="newPtName" placeholder="患者氏名">
-      <input type="number" id="newPtAge" placeholder="年齢" style="max-width:65px;">
+      <input type="number" id="newPtAge" style="display:none;">
       <button class="btn-save-pt" id="addPtBtn">追加</button>
     </div>
     <div style="display:flex;justify-content:flex-end;">
@@ -1657,6 +1731,16 @@ document.querySelectorAll('img[data-guide]').forEach(img => {
       savedAt: new Date().toISOString()
     };
   }
+  window.filterPtList = function () {
+    var q = document.getElementById('ptSearch').value.trim().toLowerCase();
+    var items = document.querySelectorAll('#ptList .pt-item');
+    items.forEach(function (el) {
+      var pid  = (el.dataset.pid  || '').toLowerCase();
+      var name = (el.querySelector('.pt-name') ? el.querySelector('.pt-name').textContent : '').toLowerCase();
+      el.style.display = (!q || pid.includes(q) || name.includes(q)) ? '' : 'none';
+    });
+  };
+
   window.renderPatientList = function () {
     var db = dbLoad(); var el = document.getElementById('ptList'); var ids = Object.keys(db).sort();
     if (ids.length === 0) { el.innerHTML = '<div style="padding:14px;text-align:center;color:#9CA3AF;">患者データなし</div>'; return; }
@@ -1698,7 +1782,7 @@ document.querySelectorAll('img[data-guide]').forEach(img => {
     dbSave(db); window._ptId = pid;
     alert('保存しました (ID:' + pid + ' / ' + name + ')');
   }
-  document.getElementById('patientMgrBtn').addEventListener('click', function () { window.renderPatientList(); document.getElementById('ptOverlay').classList.add('open'); });
+  document.getElementById('patientMgrBtn').addEventListener('click', function () { window.renderPatientList(); var s=document.getElementById('ptSearch'); if(s) s.value=''; document.getElementById('ptOverlay').classList.add('open'); });
   document.getElementById('closePtBtn').addEventListener('click', function () { document.getElementById('ptOverlay').classList.remove('open'); });
   document.getElementById('addPtBtn').addEventListener('click', function () {
     var pid = document.getElementById('newPtId').value.trim();
