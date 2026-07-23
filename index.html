@@ -66,8 +66,7 @@ body { font-family:-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif; back
 .btn-save-pt{padding:9px 14px;border-radius:20px;background:#1B5FA8;color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;}
 .btn-plan{padding:10px 16px;border-radius:20px;background:#7C3AED;color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;}
 .btn-rec{padding:10px 16px;border-radius:20px;background:#059669;color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;}
-#ptOverlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,.75);z-index:400;align-items:center;justify-content:center;}
-#ptOverlay.open{display:flex;}
+#ptOverlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,.75);z-index:400;align-items:center;justify-content:center;}#ptOverlay.open{display:flex;}
 .pt-modal{background:#fff;border-radius:16px;padding:22px;width:min(94vw,480px);max-height:80vh;display:flex;flex-direction:column;gap:12px;}
 .pt-modal h2{font-size:17px;font-weight:700;color:#1B5FA8;}
 .pt-list{flex:1;overflow-y:auto;border:1px solid #E5E7EB;border-radius:10px;}
@@ -79,38 +78,30 @@ body { font-family:-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif; back
 .pt-del{color:#EF4444;font-size:18px;border:none;background:none;cursor:pointer;padding:2px 8px;}
 .pt-new{display:flex;gap:7px;}
 .pt-new input{flex:1;padding:9px 11px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:14px;}
-#planOverlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,.75);z-index:400;align-items:center;justify-content:center;}
-#planOverlay.open{display:flex;}
+#planOverlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,.75);z-index:400;align-items:center;justify-content:center;}#planOverlay.open{display:flex;}
 .plan-modal{background:#fff;border-radius:16px;width:min(96vw,700px);max-height:92vh;overflow-y:auto;}
 .plan-hdr{background:#7C3AED;color:#fff;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;}
-.plan-hdr h2{font-size:15px;font-weight:700;}
-.plan-hdr button{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;}
+.plan-hdr h2{font-size:15px;font-weight:700;}.plan-hdr button{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;}
 .plan-body{padding:18px;}
 .plan-sec-ttl{font-size:11px;font-weight:700;color:#6B7280;border-bottom:1px solid #F3F4F6;padding-bottom:3px;margin:14px 0 6px;}
 .plan-row{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid #F9FAFB;font-size:13px;}
 .plan-row-lbl{width:120px;flex-shrink:0;color:#374151;font-weight:500;}
 .plan-row select,.plan-row input[type=text]{flex:1;padding:5px 8px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:13px;}
 .plan-mgmt-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #F9FAFB;font-size:13px;}
-.plan-mgmt-lbl{width:105px;flex-shrink:0;}
-.plan-mgmt-sel{flex:1;padding:5px 8px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:13px;}
+.plan-mgmt-lbl{width:105px;flex-shrink:0;}.plan-mgmt-sel{flex:1;padding:5px 8px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:13px;}
 .plan-ta{width:100%;padding:7px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:13px;min-height:55px;margin-top:4px;}
 .plan-ftr{display:flex;gap:9px;justify-content:flex-end;padding:13px 18px;border-top:1px solid #F3F4F6;}
-#recOverlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,.75);z-index:400;align-items:center;justify-content:center;}
-#recOverlay.open{display:flex;}
+#recOverlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,.75);z-index:400;align-items:center;justify-content:center;}#recOverlay.open{display:flex;}
 .rec-modal{background:#fff;border-radius:16px;width:min(96vw,700px);max-height:92vh;overflow-y:auto;}
 .rec-hdr{background:#059669;color:#fff;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;}
-.rec-hdr h2{font-size:15px;font-weight:700;}
-.rec-hdr button{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;}
-.rec-body{padding:18px;}
-.rec-tabs{display:flex;gap:6px;margin-bottom:14px;}
+.rec-hdr h2{font-size:15px;font-weight:700;}.rec-hdr button{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;}
+.rec-body{padding:18px;}.rec-tabs{display:flex;gap:6px;margin-bottom:14px;}
 .rec-tab{padding:7px 15px;border-radius:20px;border:1.5px solid #D1D5DB;background:#fff;font-size:13px;cursor:pointer;}
 .rec-tab.active{background:#059669;color:#fff;border-color:#059669;font-weight:700;}
-.rec-panel{display:none;}
-.rec-panel.active{display:block;}
+.rec-panel{display:none;}.rec-panel.active{display:block;}
 .rec-row{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid #F9FAFB;font-size:13px;}
 .rec-lbl{width:95px;flex-shrink:0;color:#374151;}
-.rec-radios{display:flex;gap:10px;}
-.rec-radios label{display:flex;align-items:center;gap:3px;cursor:pointer;}
+.rec-radios{display:flex;gap:10px;}.rec-radios label{display:flex;align-items:center;gap:3px;cursor:pointer;}
 .rec-txt{flex:1;padding:5px 8px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:13px;}
 .rec-ta{width:100%;padding:7px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:13px;min-height:65px;margin-top:6px;}
 .rec-ftr{display:flex;gap:9px;justify-content:flex-end;padding:13px 18px;border-top:1px solid #F3F4F6;}
@@ -277,8 +268,8 @@ body { font-family:-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif; back
     <button class="btn-patient-mgr" id="patientMgrBtn">🗂 患者選択</button>
     <input type="text" id="patientName" placeholder="患者氏名">
     <input type="text" id="patientId" placeholder="ID" style="width:68px;">
+    <input type="number" id="patientAge" style="display:none;">
     <input type="date" id="examDate">
-    <input type="number" id="patientAge" placeholder="年齢" style="width:68px;display:none;">
     <button class="btn-save-pt" id="saveDataBtn">💾 保存</button>
   </div>
 </div>
@@ -575,8 +566,8 @@ body { font-family:-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif; back
     <div class="odk-timer" id="odkTimer">5.0</div>
     <button class="btn-start" id="odkStartBtn">測定開始</button>
     <div class="odk-status" id="odkStatus"></div>
-    <button id="odkTapBtn" style="display:none;width:100%;padding:28px 0;margin:10px 0 4px;font-size:28px;font-weight:900;border-radius:16px;background:var(--teal);color:#fff;border:none;cursor:pointer;letter-spacing:.1em;">👆 タップ！</button>
-    <div style="text-align:center;font-size:12px;color:var(--gray-500);margin-bottom:4px;" id="odkTapCount" style="display:none;"></div>
+    <button id="odkTapBtn" style="display:none;width:100%;padding:26px 0;margin:8px 0 2px;font-size:26px;font-weight:900;border-radius:14px;background:var(--teal);color:#fff;border:none;cursor:pointer;">👆 タップ！</button>
+    <div id="odkTapCount" style="display:none;text-align:center;font-size:12px;color:var(--gray-500);margin-bottom:4px;"></div>
     <div>
       <div class="odk-row"><span class="odk-syl">パ</span><span class="odk-count" id="odkCntPa">—</span><span class="odk-rate" id="odkRatePa">— 回/秒</span><button id="odkRetryPa" onclick="odkRetry(0)" style="display:none;margin-left:8px;padding:3px 10px;border-radius:8px;background:#EF4444;color:#fff;border:none;font-size:12px;cursor:pointer;">やり直し</button></div>
       <div class="odk-row"><span class="odk-syl">タ</span><span class="odk-count" id="odkCntTa">—</span><span class="odk-rate" id="odkRateTa">— 回/秒</span><button id="odkRetryTa" onclick="odkRetry(1)" style="display:none;margin-left:8px;padding:3px 10px;border-radius:8px;background:#EF4444;color:#fff;border:none;font-size:12px;cursor:pointer;">やり直し</button></div>
@@ -585,11 +576,11 @@ body { font-family:-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif; back
     <details class="how-to" style="margin-top:10px;">
       <summary>✏️ 手入力で入力する</summary>
       <div style="padding:10px 12px;background:#f9fafb;border-radius:8px;margin-top:6px;">
-        <p style="margin:0 0 8px;color:#6B7280;font-size:13px;">音声認識が使えない場合や値を修正したい場合に使用</p>
+        <p style="margin:0 0 8px;color:#6B7280;font-size:12px;">音声がうまく拾えない場合に手動で回数を入力</p>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;align-items:center;gap:8px;"><span style="width:28px;font-size:18px;font-weight:900;">パ</span><input type="number" id="odkManualPa" placeholder="回数" min="0" max="99" style="width:70px;padding:6px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(0)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
-          <div style="display:flex;align-items:center;gap:8px;"><span style="width:28px;font-size:18px;font-weight:900;">タ</span><input type="number" id="odkManualTa" placeholder="回数" min="0" max="99" style="width:70px;padding:6px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(1)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
-          <div style="display:flex;align-items:center;gap:8px;"><span style="width:28px;font-size:18px;font-weight:900;">カ</span><input type="number" id="odkManualKa" placeholder="回数" min="0" max="99" style="width:70px;padding:6px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(2)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:24px;font-size:18px;font-weight:900;">パ</span><input type="number" id="odkManualPa" placeholder="回数" min="0" max="99" style="width:65px;padding:5px 8px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(0)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:24px;font-size:18px;font-weight:900;">タ</span><input type="number" id="odkManualTa" placeholder="回数" min="0" max="99" style="width:65px;padding:5px 8px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(1)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:24px;font-size:18px;font-weight:900;">カ</span><input type="number" id="odkManualKa" placeholder="回数" min="0" max="99" style="width:65px;padding:5px 8px;border:1.5px solid #D1D5DB;border-radius:7px;font-size:14px;"><span style="font-size:12px;color:#6B7280;">回 ÷ 5秒</span><button onclick="applyOdkManual(2)" style="padding:5px 12px;border-radius:8px;background:#1B5FA8;color:#fff;border:none;font-size:12px;cursor:pointer;">適用</button></div>
         </div>
       </div>
     </details>
@@ -900,8 +891,10 @@ const ODK_DUR=5.0;
 const odkSyls=['パ','タ','カ'];
 const odkPats=[/パ/g,/タ/g,/カ/g];
 const odkRes=[null,null,null];
-let odkCur=0, odkRunning=false, odkTranscript='', odkRec=null, odkIv=null, odkTapCnt=0;
+let odkCur=0, odkRunning=false, odkTranscript='', odkRec=null, odkIv=null;
+let odkTapCnt=0; // タップカウント
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+
 function odkRefresh(){
   document.getElementById('odkCurrentLabel').textContent=`「${odkSyls[odkCur]}」を測定`;
   document.getElementById('odkTimer').textContent=ODK_DUR.toFixed(1);
@@ -909,19 +902,35 @@ function odkRefresh(){
     const c=odkRes[i];
     document.getElementById('odkCnt'+k).textContent=c===null?'—':c;
     document.getElementById('odkRate'+k).textContent=c===null?'— 回/秒':(c/ODK_DUR).toFixed(1)+' 回/秒';
-    // やり直しボタンの表示制御
-    const retryBtn=document.getElementById('odkRetry'+k);
-    if(retryBtn) retryBtn.style.display=(c!==null)?'inline-block':'none';
+    const rb=document.getElementById('odkRetry'+k);
+    if(rb)rb.style.display=(c!==null)?'inline-block':'none';
   });
   const rates=odkRes.filter(c=>c!==null).map(c=>c/ODK_DUR);
   document.getElementById('odkMin').textContent=rates.length?Math.min(...rates).toFixed(1):'—';
 }
 function odkStop(){
   odkRunning=false;
-  if(odkIv)clearInterval(odkIv);
-  if(odkRec){odkRec.onend=null;try{odkRec.stop();}catch(e){}}
+  if(odkIv){clearInterval(odkIv);odkIv=null;}
+  if(odkRec){odkRec.onend=null;odkRec.onresult=null;try{odkRec.stop();}catch(e){}}
   const btn=document.getElementById('odkStartBtn');
   btn.className='btn-start'; btn.textContent='測定開始';
+}
+function odkRetry(idx){
+  if(odkRunning)return;
+  odkRes[idx]=null;
+  odkCur=idx;
+  odkRefresh();
+  document.getElementById('odkStatus').textContent=odkSyls[idx]+'をやり直してください';
+}
+function applyOdkManual(idx){
+  var ids=['odkManualPa','odkManualTa','odkManualKa'];
+  var el=document.getElementById(ids[idx]);
+  if(!el)return;
+  var val=parseInt(el.value,10);
+  if(isNaN(val)||val<0){alert('正しい回数を入力してください');return;}
+  odkRes[idx]=val;
+  odkRefresh();
+  document.getElementById('odkStatus').textContent=odkSyls[idx]+':'+val+'回='+(val/ODK_DUR).toFixed(1)+'回/秒（手入力）';
 }
 document.getElementById('odkOpenBtn').addEventListener('click',()=>document.getElementById('odkModal').classList.add('open'));
 document.getElementById('odkCancelBtn').addEventListener('click',()=>{odkStop();document.getElementById('odkModal').classList.remove('open');});
@@ -930,48 +939,40 @@ document.getElementById('odkStartBtn').addEventListener('click',()=>{
   if(odkRunning)return;
   if(!SR){document.getElementById('odkStatus').textContent='音声認識非対応(Chrome/Safari推奨)';return;}
 
-  const capCur=odkCur;
-  var voiceCount=0; // テキストに依存せず直接カウント
-
+  const measureCur=odkCur; // この測定回の音節を確定
   odkRunning=true;
+  odkTranscript='';
   odkTapCnt=0;
+
   const btn=document.getElementById('odkStartBtn');
   btn.className='btn-start running';btn.textContent='計測中...';
-  document.getElementById('odkStatus').textContent='「'+odkSyls[capCur]+'」と繰り返し発音してください';
+  document.getElementById('odkStatus').textContent='「'+odkSyls[measureCur]+'」と繰り返し発音してください';
 
   // タップボタン表示
   var tapBtn=document.getElementById('odkTapBtn');
   var tapCntEl=document.getElementById('odkTapCount');
-  tapBtn.style.display='block';
-  tapCntEl.style.display='block';
-  tapCntEl.textContent='タップ: 0回';
+  if(tapBtn){tapBtn.style.display='block';}
+  if(tapCntEl){tapCntEl.style.display='block';tapCntEl.textContent='タップ: 0回';}
 
   const t0=Date.now();
-  var prevFinalLen=0; // 確定済みテキストの前回長さ
-
   odkRec=new SR();
   odkRec.lang='ja-JP';
   odkRec.continuous=true;
   odkRec.interimResults=true;
 
   odkRec.onresult=function(ev){
-    if(!odkRunning)return;
-    // 確定結果のみでカウント（暫定結果は除外）
-    var allFinal='';
-    for(var i=0;i<ev.results.length;i++){
-      if(ev.results[i].isFinal) allFinal+=ev.results[i][0].transcript;
+    // 保存済みなら無視（タイマー終了後の遅延発火対策）
+    if(odkRes[measureCur]!==null)return;
+    let interim='';
+    for(let i=ev.resultIndex;i<ev.results.length;i++){
+      const t=ev.results[i][0].transcript;
+      ev.results[i].isFinal?(odkTranscript+=t):(interim+=t);
     }
-    var m=allFinal.match(odkPats[capCur]);
-    voiceCount=m?m.length:0;
-    document.getElementById('odkCnt'+['Pa','Ta','Ka'][capCur]).textContent=voiceCount;
+    const m=(odkTranscript+interim).match(odkPats[measureCur]);
+    document.getElementById('odkCnt'+['Pa','Ta','Ka'][measureCur]).textContent=m?m.length:0;
   };
-
-  odkRec.onerror=function(ev){
-    document.getElementById('odkStatus').textContent='エラー:'+ev.error;
-  };
-  odkRec.onend=function(){
-    if(odkRunning)try{odkRec.start();}catch(e){}
-  };
+  odkRec.onerror=function(ev){document.getElementById('odkStatus').textContent='エラー:'+ev.error;};
+  odkRec.onend=function(){if(odkRunning)try{odkRec.start();}catch(e){}};
 
   try{odkRec.start();}catch(e){
     document.getElementById('odkStatus').textContent='開始できません:'+e.message;
@@ -979,34 +980,24 @@ document.getElementById('odkStartBtn').addEventListener('click',()=>{
   }
 
   odkIv=setInterval(function(){
-    var rem=Math.max(0,ODK_DUR-(Date.now()-t0)/1000);
+    const rem=Math.max(0,ODK_DUR-(Date.now()-t0)/1000);
     document.getElementById('odkTimer').textContent=rem.toFixed(1);
     if(rem<=0){
-      // タイマー終了：この時点のvoiceCountを確定保存
-      var finalVoice=voiceCount;
-      var finalTap=odkTapCnt;
-      var savedCnt=Math.max(finalVoice,finalTap);
-
-      // 保存（停止より先）
-      odkRes[capCur]=savedCnt;
+      // カウントを確定（odkRes[measureCur]にnull以外が入ると以降のonresultは無視される）
+      const voiceCnt=(odkTranscript.match(odkPats[measureCur])||[]).length;
+      const finalCnt=Math.max(voiceCnt,odkTapCnt);
+      odkRes[measureCur]=finalCnt; // ← 先に保存
 
       // 停止
-      clearInterval(odkIv);odkIv=null;
-      odkRunning=false;
-      if(odkRec){odkRec.onend=null;odkRec.onresult=null;try{odkRec.stop();}catch(e){}}
-      btn.className='btn-start';btn.textContent='測定開始';
+      if(tapBtn)tapBtn.style.display='none';
+      if(tapCntEl)tapCntEl.style.display='none';
+      odkStop();
 
-      // タップボタン非表示
-      document.getElementById('odkTapBtn').style.display='none';
-      document.getElementById('odkTapCount').style.display='none';
-
-      // 結果表示
       document.getElementById('odkStatus').textContent=
-        odkSyls[capCur]+':'+savedCnt+'回 = '+(savedCnt/ODK_DUR).toFixed(1)+'回/秒'+
-        ' (音声:'+finalVoice+'/タップ:'+finalTap+')';
+        odkSyls[measureCur]+':'+finalCnt+'回 = '+(finalCnt/ODK_DUR).toFixed(1)+'回/秒'+
+        ' (音声:'+voiceCnt+'/タップ:'+odkTapCnt+')';
 
-      // 次の音節へ
-      if(capCur<2){odkCur=capCur+1;}
+      if(measureCur<2){odkCur=measureCur+1;}
       odkRefresh();
     }
   },50);
@@ -1027,36 +1018,20 @@ document.getElementById('odkConfirmBtn').addEventListener('click',()=>{
 });
 odkRefresh();
 
-// タップボタンのイベント
+// タップボタンイベント
 (function(){
-  var tapBtn=document.getElementById('odkTapBtn');
+  var tb=document.getElementById('odkTapBtn');
+  if(!tb)return;
   function doTap(e){
     e.preventDefault();
     if(!odkRunning)return;
     odkTapCnt++;
-    document.getElementById('odkTapCount').textContent='タップ: '+odkTapCnt+'回';
+    var el=document.getElementById('odkTapCount');
+    if(el)el.textContent='タップ: '+odkTapCnt+'回';
   }
-  tapBtn.addEventListener('click', doTap);
-  tapBtn.addEventListener('touchstart', doTap, {passive:false});
+  tb.addEventListener('click',doTap);
+  tb.addEventListener('touchstart',doTap,{passive:false});
 })();
-
-// 手入力適用関数
-function odkRetry(idx){
-  if(odkRunning)return; // 計測中は不可
-  odkRes[idx]=null;    // その音節をリセット
-  odkCur=idx;          // その音節に戻る
-  odkRefresh();
-  document.getElementById('odkStatus').textContent=odkSyls[idx]+'をやり直してください';
-}
-function applyOdkManual(idx){
-  var ids=['odkManualPa','odkManualTa','odkManualKa'];
-  var el=document.getElementById(ids[idx]);
-  var val=parseInt(el.value,10);
-  if(isNaN(val)||val<0){alert('正しい回数を入力してください');return;}
-  odkRes[idx]=val;
-  odkRefresh();
-  document.getElementById('odkStatus').textContent=odkSyls[idx]+':'+val+'回='+(val/ODK_DUR).toFixed(1)+'回/秒';
-}
 
 // ─── ⑥ 咀嚼タイマー ───
 let chewRunning=false, chewIv=null, chewDone=false;
@@ -1635,14 +1610,12 @@ document.querySelectorAll('img[data-guide]').forEach(img => {
 <div id="ptOverlay">
   <div class="pt-modal">
     <h2>🗂 患者管理</h2>
-    <div style="margin-bottom:8px;">
-      <input type="text" id="ptSearch" placeholder="🔍 IDまたは氏名で検索" style="width:100%;padding:9px 12px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;" oninput="filterPtList()">
-    </div>
+    <div style="margin-bottom:8px;"><input type="text" id="ptSearch" placeholder="🔍 IDまたは氏名で検索" style="width:100%;padding:9px 12px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;" oninput="filterPtList()"></div>
     <div class="pt-list" id="ptList"><div style="padding:14px;text-align:center;color:#9CA3AF;">患者データなし</div></div>
     <div class="pt-new">
       <input type="text" id="newPtId" placeholder="ID（例:001）" style="max-width:80px;">
       <input type="text" id="newPtName" placeholder="患者氏名">
-      <input type="number" id="newPtAge" style="display:none;">
+      <input type="number" id="newPtAge" placeholder="年齢" style="max-width:65px;">
       <button class="btn-save-pt" id="addPtBtn">追加</button>
     </div>
     <div style="display:flex;justify-content:flex-end;">
@@ -1758,14 +1731,12 @@ document.querySelectorAll('img[data-guide]').forEach(img => {
   }
   window.filterPtList = function () {
     var q = document.getElementById('ptSearch').value.trim().toLowerCase();
-    var items = document.querySelectorAll('#ptList .pt-item');
-    items.forEach(function (el) {
-      var pid  = (el.dataset.pid  || '').toLowerCase();
-      var name = (el.querySelector('.pt-name') ? el.querySelector('.pt-name').textContent : '').toLowerCase();
-      el.style.display = (!q || pid.includes(q) || name.includes(q)) ? '' : 'none';
+    document.querySelectorAll('#ptList .pt-item').forEach(function(el){
+      var pid=(el.dataset.pid||'').toLowerCase();
+      var nm=(el.querySelector('.pt-name')?el.querySelector('.pt-name').textContent:'').toLowerCase();
+      el.style.display=(!q||pid.includes(q)||nm.includes(q))?'':'none';
     });
   };
-
   window.renderPatientList = function () {
     var db = dbLoad(); var el = document.getElementById('ptList'); var ids = Object.keys(db).sort();
     if (ids.length === 0) { el.innerHTML = '<div style="padding:14px;text-align:center;color:#9CA3AF;">患者データなし</div>'; return; }
@@ -1807,7 +1778,7 @@ document.querySelectorAll('img[data-guide]').forEach(img => {
     dbSave(db); window._ptId = pid;
     alert('保存しました (ID:' + pid + ' / ' + name + ')');
   }
-  document.getElementById('patientMgrBtn').addEventListener('click', function () { window.renderPatientList(); var s=document.getElementById('ptSearch'); if(s) s.value=''; document.getElementById('ptOverlay').classList.add('open'); });
+  document.getElementById('patientMgrBtn').addEventListener('click', function () { window.renderPatientList(); document.getElementById('ptOverlay').classList.add('open'); });
   document.getElementById('closePtBtn').addEventListener('click', function () { document.getElementById('ptOverlay').classList.remove('open'); });
   document.getElementById('addPtBtn').addEventListener('click', function () {
     var pid = document.getElementById('newPtId').value.trim();
