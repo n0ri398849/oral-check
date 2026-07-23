@@ -944,7 +944,9 @@ document.getElementById('odkStartBtn').addEventListener('click',()=>{
   odkRec=new SR();odkRec.lang='ja-JP';odkRec.continuous=true;odkRec.interimResults=true;
   const capCur=odkCur; // この測定の音節番号をキャプチャ
   odkRec.onresult=ev=>{
-    if(!odkRunning)return; // 停止後は無視
+    // 既に保存済み、または停止済みなら無視
+    if(!odkRunning)return;
+    if(odkRes[capCur]!==null)return; // ← これが重要：保存済みなら一切無視
     let interim='';
     for(let i=ev.resultIndex;i<ev.results.length;i++){
       const t=ev.results[i][0].transcript;
